@@ -2,6 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 
 interface Contact {
   ID: number;
@@ -30,11 +39,15 @@ function ContactList() {
     <>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {contacts.map(contact => (
-          <div key={contact.ID} className="bg-white p-4 rounded-md shadow-md">
-            <Link to={`/contact/${contact.ID}`} className="text-blue-500 hover:underline">
-              <h3 className="text-lg font-semibold mb-2">{contact.Name} {contact.LastName}</h3>
-            </Link>
-          </div>
+          <Card key={contact.ID}>
+          <CardHeader>
+            <CardTitle><Link to={`/contact/${contact.ID}`} className="text-green-500 hover:underline">
+              <h4 className="font-semibold mb-2">@{`${contact.Name}.${contact.LastName}`.toLowerCase()}</h4>
+            </Link></CardTitle>
+            <CardDescription>{contact.Email}</CardDescription>
+          </CardHeader>
+        </Card>
+        
         ))}
       </div>
     </>
