@@ -21,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -117,7 +118,7 @@ const ShowContact = () => {
           })
           .catch(error => console.error('Error deleting contact:', error));
       }
-  }, [id, isDelete, navigate]);
+  }, [id, isDelete, navigate, notes]);
 
   const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -183,7 +184,9 @@ const ShowContact = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleSubmit} type="submit">Save changes</Button>
+          <DialogClose asChild>
+            <Button onClick={handleSubmit} type="submit">Save changes</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
