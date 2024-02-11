@@ -10,3 +10,7 @@
   -webkit-background-clip: text;
   color: transparent;
 }
+
+.text-left {
+  white-space: pre-line;
+}

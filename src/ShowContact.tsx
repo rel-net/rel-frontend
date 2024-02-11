@@ -164,8 +164,8 @@ const ShowContact = () => {
   
 
   return (
-    <div>
-      <Card key={contact?.ID}>
+    <div className='grid gap-4 grid-cols-1'>
+      <Card key={contact?.ID} className='w-full'>
           <CardHeader>
             <CardTitle>
               <h4 className="font-semibold mb-2">@{`${contact?.Name}.${contact?.LastName}`.toLowerCase()}</h4>
@@ -177,29 +177,38 @@ const ShowContact = () => {
             </CardContent>
           </CardHeader>
       </Card>
+      
       <Accordion type="single" collapsible>
       {notes.map(note => (
         <AccordionItem value={note.ID.toString()}>
         <AccordionTrigger>Note {note.ID.toString()} - {formatDate(note.Date)}</AccordionTrigger>
         <AccordionContent>
-          {note.Content}
-          <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete Note</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure to delete this note?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the note content.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => deleteNote(note.ID)}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+          <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
+            <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
+            { note.Content}
+            </div>
+            <div className='lg:col-span-2 sm:col-span-8'>
+              <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive">Delete Note</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure to delete this note?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the note content.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => deleteNote(note.ID)}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            </div>
+          </div>
+          
+          
         </AccordionContent>
         </AccordionItem>
       ))}
