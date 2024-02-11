@@ -41,7 +41,7 @@ function ContactList() {
         {contacts.map(contact => (
           <Card key={contact.ID}>
           <CardHeader>
-            <CardTitle><Link to={`/contact/${contact.ID}`} className="text-green-500 hover:underline">
+            <CardTitle><Link to={`/contact/${contact.ID}`} className="text-mygreen hover:underline">
               <h4 className="font-semibold mb-2">@{`${contact.Name}.${contact.LastName}`.toLowerCase()}</h4>
             </Link></CardTitle>
             <CardDescription>{contact.Email}</CardDescription>

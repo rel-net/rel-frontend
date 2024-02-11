@@ -6,7 +6,7 @@
 /* Add your custom styles here */
 
 .gradient-h1 {
-  background: linear-gradient(120deg, #00a12e, #e0ff64); /* HEX colors for the gradient */
+  background: linear-gradient(150deg, #00A12E, #E0FF64); /* HEX colors for the gradient */
   -webkit-background-clip: text;
   color: transparent;
 }

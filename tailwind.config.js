@@ -9,6 +9,9 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    colors: {
+      'mygreen': '#00A12E',
+    },
     container: {
       center: true,
       padding: "2rem",

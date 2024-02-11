@@ -20,8 +20,8 @@ import {
 function App() {
   return (
     <Router>
-      <div className="w-full gradient-h1">
-        <h1 className="text-4xl font-bold">Rel.</h1>
+      <div className="w-full flex items-center justify-center">
+        <h1 className="text-4xl font-bold gradient-h1">Rel.</h1>
       </div>
       <div>
       <NavigationMenu>
