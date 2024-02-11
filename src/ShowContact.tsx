@@ -70,6 +70,17 @@ interface Note {
   Content: string;
 }
 
+const deleteNote = async (noteId:number|undefined) => {
+    fetch(`http://0.0.0.0:3000/api/note/${noteId}`, {
+          method: 'DELETE',
+        })
+          .then(() => {
+            console.log('Note deleted successfully!');
+            // Optionally, you can update the state or perform any other actions after successful deletion.
+          })
+          .catch(error => console.error('Error deleting contact:', error));
+};
+
 const createNote = async (contactId:number|undefined, content: string) => {
   try {
     const response = await fetch(`http://0.0.0.0:3000/api/note/contact/${contactId}`, {
@@ -99,7 +110,7 @@ const ShowContact = () => {
   const { id } = useParams<{ id: string }>();
   const [contact, setContact] = useState<Contact | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
-  const [isDelete, setIsDelete] = useState<number>(0);
+  const [isDeleteContact, setIsDeleteContact] = useState<number>(0);
   const [content, setContent] = useState('Note...');
 
   const handleContentChange = (e) => {
@@ -129,7 +140,7 @@ const ShowContact = () => {
       .then(data => setNotes(data.notes))
       .catch(error => console.error('Error fetching contact notes:', error));
 
-      if(isDelete){
+      if(isDeleteContact){
         fetch(`http://0.0.0.0:3000/api/contact/${id}`, {
           method: 'DELETE',
         })
@@ -140,7 +151,9 @@ const ShowContact = () => {
           })
           .catch(error => console.error('Error deleting contact:', error));
       }
-  }, [id, isDelete, navigate, notes]);
+
+      
+  }, [isDeleteContact, id, navigate]);
 
   const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -167,9 +180,26 @@ const ShowContact = () => {
       <Accordion type="single" collapsible>
       {notes.map(note => (
         <AccordionItem value={note.ID.toString()}>
-        <AccordionTrigger>Note {note.ID.toString()}</AccordionTrigger>
+        <AccordionTrigger>Note {note.ID.toString()} - {formatDate(note.Date)}</AccordionTrigger>
         <AccordionContent>
           {note.Content}
+          <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">Delete Note</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure to delete this note?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the note content.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => deleteNote(note.ID)}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         </AccordionContent>
         </AccordionItem>
       ))}
@@ -188,7 +218,7 @@ const ShowContact = () => {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => setIsDelete(1)}>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={() => setIsDeleteContact(1)}>Continue</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
