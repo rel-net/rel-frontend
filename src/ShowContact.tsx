@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Markdown from 'react-markdown'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -185,7 +186,8 @@ const ShowContact = () => {
         <AccordionContent>
           <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
             <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
-            { note.Content}
+            
+            <Markdown>{ note.Content}</Markdown>
             </div>
             <div className='lg:col-span-2 sm:col-span-8'>
               <AlertDialog>
