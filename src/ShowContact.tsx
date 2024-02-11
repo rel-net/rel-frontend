@@ -187,7 +187,7 @@ const ShowContact = () => {
           <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
             <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
             
-            <Markdown>{ note.Content}</Markdown>
+            <Markdown className="markdown-render">{ note.Content}</Markdown>
             </div>
             <div className='lg:col-span-2 sm:col-span-8'>
               <AlertDialog>

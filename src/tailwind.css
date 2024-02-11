@@ -14,3 +14,13 @@
 .text-left {
   white-space: pre-line;
 }
+
+.markdown-render h1 {
+  font-size: 3.2em !important;
+  line-height: 1.1;
+}
+
+.markdown-render h2 {
+  font-size: 2.8em !important;
+  line-height: 0.95;
+}
