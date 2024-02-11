@@ -13,18 +13,40 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose
-} from "@/components/ui/dialog"
+
+import { Textarea } from "@/components/ui/textarea"
+
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+  SheetClose
+} from "@/components/ui/sheet"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 
 import { Button } from "@/components/ui/button"
 
@@ -130,20 +152,28 @@ const ShowContact = () => {
 
   return (
     <div>
-      <h2>Contact Details</h2>
-      <p>Name: {contact?.Name}</p>
-      <p>Last Name: {contact?.LastName}</p>
-      <p>Email: {contact?.Email}</p>
-
-      <h3>Contact Notes</h3>
-      <ul>
-        {notes.map(note => (
-          <li key={note.ID}>
-            <p>Date: {formatDate(note.Date)}</p>
-            <p>Content: {note.Content}</p>
-          </li>
-        ))}
-      </ul>
+      <Card key={contact?.ID}>
+          <CardHeader>
+            <CardTitle>
+              <h4 className="font-semibold mb-2">@{`${contact?.Name}.${contact?.LastName}`.toLowerCase()}</h4>
+            </CardTitle>
+            <CardDescription>{contact?.Email}</CardDescription>
+            <CardContent className='text-left'>
+              <p>{contact?.Name}</p>
+              <p>{contact?.LastName}</p>
+            </CardContent>
+          </CardHeader>
+      </Card>
+      <Accordion type="single" collapsible>
+      {notes.map(note => (
+        <AccordionItem value={note.ID.toString()}>
+        <AccordionTrigger>Note {note.ID.toString()}</AccordionTrigger>
+        <AccordionContent>
+          {note.Content}
+        </AccordionContent>
+        </AccordionItem>
+      ))}
+      </Accordion>
       <div>
           <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -164,32 +194,29 @@ const ShowContact = () => {
         </AlertDialog>
       </div> 
       <div>
-      <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Create Note</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create Note</DialogTitle>
-          <DialogDescription>
-            Create a new note for {contact?.Name}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="content" className="text-right">
-              Contact
-            </Label>
-            <Input id="content" value={content} onChange={handleContentChange} className="col-span-3" />
-          </div>
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button onClick={handleSubmit} type="submit">Save changes</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        <Sheet>
+          <SheetTrigger>
+            <Button variant="outline">Create Note</Button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="sm:max-h-[800px]">
+            <SheetHeader>
+              <SheetTitle>Create Note</SheetTitle>
+              <SheetDescription>
+                <div className="grid grid-cols-2 items-center gap-4">
+                  <Label htmlFor="content">
+                    Contact
+                  </Label>
+                  <Textarea id="content" placeholder="Type your message here." onChange={handleContentChange} className="col-span-3"/>
+                </div>
+              </SheetDescription>
+            </SheetHeader>
+            <SheetFooter className='py-10'>
+              <SheetClose asChild>
+              <Button onClick={handleSubmit} type="submit">Save changes</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
       </div> 
     </div>
   );
