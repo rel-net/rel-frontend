@@ -16,8 +16,6 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { Textarea } from "@/components/ui/textarea"
-
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 import {
@@ -35,7 +33,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -162,11 +159,11 @@ const ShowContact = () => {
   const [content, setContent] = useState('Note...');
   const [todo, setTodo] = useState("Todo...");
 
-  const handleContentChange = (e) => {
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
-  const handleTodoChange = (e) => {
+  const handleTodoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTodo(e.target.value);
   };
 
