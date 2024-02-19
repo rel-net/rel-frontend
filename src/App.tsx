@@ -9,11 +9,9 @@ import ShowContact from './ShowContact';
 import { Link } from 'react-router-dom';
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 
