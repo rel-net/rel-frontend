@@ -38,6 +38,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 
 import {
   Accordion,
@@ -256,9 +258,13 @@ const ShowContact = () => {
         </div>
       </div>
       <div className="col-span-4 py-10">
-        <h2 className='text-left gradient-h1'>Reminders</h2>
-        {/* REMINDERS */}
-        <Accordion type="single" collapsible>
+        <Tabs defaultValue="notes" className="text-left">
+          <TabsList>
+            <TabsTrigger value="notes">Notes</TabsTrigger>
+            <TabsTrigger value="reminders">Reminders</TabsTrigger>
+          </TabsList>
+          <TabsContent value="reminders">
+          <Accordion type="single" collapsible>
         {reminders.map(reminder => (
           <AccordionItem value={reminder.ID.toString()}>
           <AccordionTrigger>Reminder {reminder.ID.toString()} - {formatDate(reminder.Date)}</AccordionTrigger>
@@ -292,11 +298,9 @@ const ShowContact = () => {
           </AccordionItem>
         ))}
         </Accordion>
-      </div>
-      <div className="col-span-4">
-        {/* NOTES */}
-        <h2 className='text-left gradient-h1'>Notes</h2>
-        <Accordion type="single" collapsible>
+          </TabsContent>
+          <TabsContent value="notes">
+          <Accordion type="single" collapsible>
         {notes.map(note => (
           <AccordionItem value={note.ID.toString()}>
           <AccordionTrigger>Note {note.ID.toString()} - {formatDate(note.Date)}</AccordionTrigger>
@@ -326,13 +330,13 @@ const ShowContact = () => {
               </AlertDialog>
               </div>
             </div>
-            
-            
           </AccordionContent>
           </AccordionItem>
         ))}
         </Accordion>
-      </div> 
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
