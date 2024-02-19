@@ -85,6 +85,8 @@ const ShowContact = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [isDeleteContact, setIsDeleteContact] = useState<number>(0);
+  const [isDeleteNote, setIsDeleteNote] = useState<number>(0);
+  const [isDeleteReminder, setIsDeleteReminder] = useState<number>(0);
   const [content, setContent] = useState('Note...');
   const [todo, setTodo] = useState("Todo...");
 
@@ -96,25 +98,25 @@ const ShowContact = () => {
     setTodo(e.target.value);
   };
 
-  const handleSubmit = () => {
-    // Assuming you have the contact ID available
+  const handleSubmitNote = () => {
     const contactId = contact?.ID;
-
-    // Call the createNote function to make the POST request
     createNote(contactId, content);
-
-    // Optionally, close the dialog or perform other actions after submission.
   };
 
   const handleSubmitReminder = () => {
-    // Assuming you have the contact ID available
     const contactId = contact?.ID;
-
-    // Call the createNote function to make the POST request
     createReminder(contactId, todo);
-
-    // Optionally, close the dialog or perform other actions after submission.
   };
+
+  const handleDeleteNote = (noteId:number|undefined) => {
+    deleteNote(noteId);
+    setIsDeleteNote(1);
+  }
+
+  const handleDeleteReminder = (reminderId:number|undefined) => {
+    deleteReminder(reminderId);
+    setIsDeleteReminder(1);
+  }
 
   useEffect(() => {
     // Fetch contact details
@@ -135,8 +137,6 @@ const ShowContact = () => {
       .then(data => setReminders(data.reminders))
       .catch(error => console.error('Error fetching contact reminder:', error));
 
-      console.log(reminders)
-
       if(isDeleteContact){
         fetch(`http://0.0.0.0:3000/api/contact/${id}`, {
           method: 'DELETE',
@@ -149,8 +149,16 @@ const ShowContact = () => {
           .catch(error => console.error('Error deleting contact:', error));
       }
 
+      if(isDeleteNote){
+        setIsDeleteReminder(0)
+      }
+
+      if(isDeleteReminder){
+        setIsDeleteReminder(0)
+      }
+
       
-  }, [isDeleteContact, id, navigate]);
+  }, [isDeleteContact, isDeleteNote, isDeleteReminder, id, navigate]);
 
   const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -199,7 +207,7 @@ const ShowContact = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => deleteReminder(reminder.ID)}>Continue</AlertDialogAction>
+                  <AlertDialogAction onClick={() => handleDeleteReminder(reminder.ID)}>Continue</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -237,7 +245,7 @@ const ShowContact = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => deleteNote(note.ID)}>Continue</AlertDialogAction>
+                  <AlertDialogAction onClick={() => handleDeleteNote(note.ID)}>Continue</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -287,7 +295,7 @@ const ShowContact = () => {
             </SheetHeader>
             <SheetFooter className='py-10'>
               <SheetClose asChild>
-              <Button onClick={handleSubmit} type="submit">Save changes</Button>
+              <Button onClick={handleSubmitNote} type="submit">Save changes</Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>
