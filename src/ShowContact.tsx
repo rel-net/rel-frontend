@@ -169,162 +169,169 @@ const ShowContact = () => {
   
 
   return (
-    <div className='grid gap-4 grid-cols-1'>
-      <Card key={contact?.ID} className='w-full'>
-          <CardHeader>
-            <CardTitle>
-              <h4 className="font-semibold mb-2">@{`${contact?.Name}.${contact?.LastName}`.toLowerCase()}</h4>
-            </CardTitle>
-            <CardDescription>{contact?.Email}</CardDescription>
-            <CardContent className='text-left'>
-              <p>{contact?.Name}</p>
-              <p>{contact?.LastName}</p>
-            </CardContent>
-          </CardHeader>
-      </Card>
-      {/* REMINDERS */}
-      <Accordion type="single" collapsible>
-      {reminders.map(reminder => (
-        <AccordionItem value={reminder.ID.toString()}>
-        <AccordionTrigger>Reminder {reminder.ID.toString()} - {formatDate(reminder.Date)}</AccordionTrigger>
-        <AccordionContent>
-          <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
-            <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
-            
-            <Markdown className="markdown-render">{ reminder.Todo}</Markdown>
-            </div>
-            <div className='lg:col-span-2 sm:col-span-8'>
-              <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive">Delete Reminder</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure to delete this reminder?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete the reminder.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => handleDeleteReminder(reminder.ID)}>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            </div>
-          </div>
-          
-          
-        </AccordionContent>
-        </AccordionItem>
-      ))}
-      </Accordion>
-
-      {/* NOTES */}
-      <Accordion type="single" collapsible>
-      {notes.map(note => (
-        <AccordionItem value={note.ID.toString()}>
-        <AccordionTrigger>Note {note.ID.toString()} - {formatDate(note.Date)}</AccordionTrigger>
-        <AccordionContent>
-          <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
-            <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
-            
-            <Markdown className="markdown-render">{ note.Content}</Markdown>
-            </div>
-            <div className='lg:col-span-2 sm:col-span-8'>
-              <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive">Delete Note</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure to delete this note?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete the note content.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => handleDeleteNote(note.ID)}>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            </div>
-          </div>
-          
-          
-        </AccordionContent>
-        </AccordionItem>
-      ))}
-      </Accordion>
-      <div>
+    <div className='grid gap-2 grid-cols-4'>
+      <div className="col-span-2">
+        <Card key={contact?.ID} className='w-full'>
+            <CardHeader>
+              <CardTitle>
+                <h4 className="font-semibold mb-2">@{`${contact?.Name}.${contact?.LastName}`.toLowerCase()}</h4>
+              </CardTitle>
+              <CardDescription>{contact?.Email}</CardDescription>
+              <CardContent className='text-left'>
+                <p>{contact?.Name}</p>
+                <p>{contact?.LastName}</p>
+              </CardContent>
+            </CardHeader>
+        </Card>
+      </div>
+      <div className="col-span-1 text-left">
+        <div className='pb-2'>
           <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete Contact</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure to delete {contact?.Name}?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the contact information.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => setIsDeleteContact(1)}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div> 
-      <div>
-        <Sheet>
-          <SheetTrigger>
-            <Button variant="outline">Create Note</Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="sm:max-h-[800px]">
-            <SheetHeader>
-              <SheetTitle>Create Note</SheetTitle>
-              <SheetDescription>
-                <div className="grid grid-cols-2 items-center gap-4">
-                  <Label htmlFor="content">
-                    Contact
-                  </Label>
-                  <Textarea id="content" placeholder="Type your message here." onChange={handleContentChange} className="col-span-3"/>
-                </div>
-              </SheetDescription>
-            </SheetHeader>
-            <SheetFooter className='py-10'>
-              <SheetClose asChild>
-              <Button onClick={handleSubmitNote} type="submit">Save changes</Button>
-              </SheetClose>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-      </div> 
-      <div>
-        <Sheet>
-          <SheetTrigger>
-            <Button variant="outline">Create Reminder</Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="sm:max-h-[800px]">
-            <SheetHeader>
-              <SheetTitle>Create Reminder</SheetTitle>
-              <SheetDescription>
-                <div className="grid grid-cols-2 items-center gap-4">
-                  <Label htmlFor="todo">
-                    Reminder
-                  </Label>
-                  <Textarea id="todo" placeholder="Type your message here." onChange={handleTodoChange} className="col-span-3"/>
-                </div>
-              </SheetDescription>
-            </SheetHeader>
-            <SheetFooter className='py-10'>
-              <SheetClose asChild>
-              <Button onClick={handleSubmitReminder} type="submit">Save changes</Button>
-              </SheetClose>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">Delete Contact</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure to delete {contact?.Name}?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the contact information.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => setIsDeleteContact(1)}>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+        <div className='pb-2'>
+          <Sheet>
+            <SheetTrigger>
+              <Button variant="outline">Create Note</Button>
+            </SheetTrigger>
+            <SheetContent side="bottom" className="sm:max-h-[800px]">
+              <SheetHeader>
+                <SheetTitle>Create Note</SheetTitle>
+                <SheetDescription>
+                  <div className="grid grid-cols-2 items-center gap-4">
+                    <Label htmlFor="content">
+                      Contact
+                    </Label>
+                    <Textarea id="content" placeholder="Type your message here." onChange={handleContentChange} className="col-span-3"/>
+                  </div>
+                </SheetDescription>
+              </SheetHeader>
+              <SheetFooter className='py-10'>
+                <SheetClose asChild>
+                <Button onClick={handleSubmitNote} type="submit">Save changes</Button>
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </div>
+        <div className='pb-2'>
+          <Sheet>
+            <SheetTrigger>
+              <Button variant="outline">Create Reminder</Button>
+            </SheetTrigger>
+            <SheetContent side="bottom" className="sm:max-h-[800px]">
+              <SheetHeader>
+                <SheetTitle>Create Reminder</SheetTitle>
+                <SheetDescription>
+                  <div className="grid grid-cols-2 items-center gap-4">
+                    <Label htmlFor="todo">
+                      Reminder
+                    </Label>
+                    <Textarea id="todo" placeholder="Type your message here." onChange={handleTodoChange} className="col-span-3"/>
+                  </div>
+                </SheetDescription>
+              </SheetHeader>
+              <SheetFooter className='py-10'>
+                <SheetClose asChild>
+                <Button onClick={handleSubmitReminder} type="submit">Save changes</Button>
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+      <div className="col-span-4 py-10">
+        <h2 className='text-left gradient-h1'>Reminders</h2>
+        {/* REMINDERS */}
+        <Accordion type="single" collapsible>
+        {reminders.map(reminder => (
+          <AccordionItem value={reminder.ID.toString()}>
+          <AccordionTrigger>Reminder {reminder.ID.toString()} - {formatDate(reminder.Date)}</AccordionTrigger>
+          <AccordionContent>
+            <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
+              <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
+              
+              <Markdown className="markdown-render">{ reminder.Todo}</Markdown>
+              </div>
+              <div className='lg:col-span-2 sm:col-span-8'>
+                <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive">Delete Reminder</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure to delete this reminder?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete the reminder.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDeleteReminder(reminder.ID)}>Continue</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              </div>
+            </div>
+          </AccordionContent>
+          </AccordionItem>
+        ))}
+        </Accordion>
+      </div>
+      <div className="col-span-4">
+        {/* NOTES */}
+        <h2 className='text-left gradient-h1'>Notes</h2>
+        <Accordion type="single" collapsible>
+        {notes.map(note => (
+          <AccordionItem value={note.ID.toString()}>
+          <AccordionTrigger>Note {note.ID.toString()} - {formatDate(note.Date)}</AccordionTrigger>
+          <AccordionContent>
+            <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
+              <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
+              
+              <Markdown className="markdown-render">{ note.Content}</Markdown>
+              </div>
+              <div className='lg:col-span-2 sm:col-span-8'>
+                <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive">Delete Note</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure to delete this note?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete the note content.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDeleteNote(note.ID)}>Continue</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              </div>
+            </div>
+            
+            
+          </AccordionContent>
+          </AccordionItem>
+        ))}
+        </Accordion>
       </div> 
     </div>
   );
