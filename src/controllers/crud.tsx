@@ -21,7 +21,7 @@ const deleteReminder = async (reminderId:number|undefined) => {
         .catch(error => console.error('Error deleting contact:', error));
 };
 
-const createNote = async (contactId:number|undefined, content: string) => {
+const createNote = async (contactId:number|undefined, title: string, content: string) => {
   try {
     const response = await fetch(`http://0.0.0.0:3000/api/note/contact/${contactId}`, {
       method: 'POST',
@@ -30,6 +30,7 @@ const createNote = async (contactId:number|undefined, content: string) => {
       },
       body: JSON.stringify({
         Content: content,
+        Title: title
       }),
     });
 
@@ -44,10 +45,8 @@ const createNote = async (contactId:number|undefined, content: string) => {
   }
 };
 
-const createReminder = async (contactId:number|undefined, todo: string) => {
-  const now = new Date();
-
-  const formattedDate = now.toISOString();
+const createReminder = async (contactId:number|undefined, title: string, todo: string, date: Date|undefined) => {
+  const formattedDate = date?.toISOString();
   try {
     const response = await fetch(`http://0.0.0.0:3000/api/reminder/contact/${contactId}`, {
       method: 'POST',
@@ -56,7 +55,8 @@ const createReminder = async (contactId:number|undefined, todo: string) => {
       },
       body: JSON.stringify({
         Todo: todo,
-        Date: formattedDate
+        Date: formattedDate,
+        Title: title
       }),
     });
 

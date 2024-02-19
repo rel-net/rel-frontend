@@ -1,5 +1,5 @@
 // ShowContact.tsx
-
+import * as React from "react"
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {createNote, createReminder, deleteNote, deleteReminder} from '@/controllers/crud';
@@ -40,7 +40,7 @@ import {
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-
+import { Input } from './components/ui/input';
 import {
   Accordion,
   AccordionContent,
@@ -48,9 +48,28 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-
+import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
 
+import { addDays, format } from "date-fns"
+ 
+import { cn } from "@/lib/utils"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Contact {
   ID: number;
@@ -69,6 +88,7 @@ interface Note {
   ContactId: number;
   Date: string;
   Content: string;
+  Title: string;
 }
 
 interface Reminder {
@@ -77,6 +97,7 @@ interface Reminder {
   Date: string;
   Todo: string;
   Status: string;
+  Title: string;
 }
 
 
@@ -90,24 +111,49 @@ const ShowContact = () => {
   const [isDeleteNote, setIsDeleteNote] = useState<number>(0);
   const [isDeleteReminder, setIsDeleteReminder] = useState<number>(0);
   const [content, setContent] = useState('Note...');
+  const [title, setTitle] = useState('Note title');
   const [todo, setTodo] = useState("Todo...");
+  const [reminderTitle, setReminderTitle] = useState("Reminder title");
+  const [date, setDate] = React.useState<Date>();
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
   };
 
   const handleTodoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTodo(e.target.value);
   };
 
+  const handleReminderTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setReminderTitle(e.target.value);
+  };
+
   const handleSubmitNote = () => {
     const contactId = contact?.ID;
-    createNote(contactId, content);
+    createNote(contactId, title, content);
+    const now = new Date();
+    const formattedDate = now.toISOString();
+    toast({
+      duration: 2500,
+      title: "New note created",
+      description: formattedDate,
+    })
   };
 
   const handleSubmitReminder = () => {
     const contactId = contact?.ID;
-    createReminder(contactId, todo);
+    createReminder(contactId, reminderTitle, todo, date);
+    const now = new Date();
+    const formattedDate = now.toISOString();
+    toast({
+      duration: 2500,
+      title: "New reminder created",
+      description: formattedDate,
+    })
   };
 
   const handleDeleteNote = (noteId:number|undefined) => {
@@ -119,6 +165,8 @@ const ShowContact = () => {
     deleteReminder(reminderId);
     setIsDeleteReminder(1);
   }
+
+  const { toast } = useToast()
 
   useEffect(() => {
     // Fetch contact details
@@ -216,10 +264,15 @@ const ShowContact = () => {
                 <SheetTitle>Create Note</SheetTitle>
                 <SheetDescription>
                   <div className="grid grid-cols-2 items-center gap-4">
+                    <Label htmlFor="title">
+                      Title
+                    </Label>
+                    <Input id="title" placeholder="Note title" onChange={handleTitleChange} className="col-span-3"/>
                     <Label htmlFor="content">
                       Contact
                     </Label>
                     <Textarea id="content" placeholder="Type your message here." onChange={handleContentChange} className="col-span-3"/>
+                    
                   </div>
                 </SheetDescription>
               </SheetHeader>
@@ -241,10 +294,51 @@ const ShowContact = () => {
                 <SheetTitle>Create Reminder</SheetTitle>
                 <SheetDescription>
                   <div className="grid grid-cols-2 items-center gap-4">
+                    <Label htmlFor="title">
+                        Title
+                    </Label>
+                    <Input id="title" placeholder="Reminder title" onChange={handleReminderTitleChange} className="col-span-3"/>
                     <Label htmlFor="todo">
-                      Reminder
+                      Todo
                     </Label>
                     <Textarea id="todo" placeholder="Type your message here." onChange={handleTodoChange} className="col-span-3"/>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "justify-start text-left font-normal",
+                            !date && "text-muted-foreground"
+                          )}
+                        >
+                          {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
+                          {date ? format(date, "PPP") : <span>Date Reminder</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        align="start"
+                        className="flex w-auto flex-col space-y-2 p-2"
+                      >
+                        <Select
+                          onValueChange={(value) =>
+                            setDate(addDays(new Date(), parseInt(value)))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            <SelectItem value="0">Today</SelectItem>
+                            <SelectItem value="1">Tomorrow</SelectItem>
+                            <SelectItem value="3">In 3 days</SelectItem>
+                            <SelectItem value="7">In a week</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <div className="rounded-md border">
+                          <Calendar mode="single" selected={date} onSelect={setDate} />
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </SheetDescription>
               </SheetHeader>
@@ -257,7 +351,10 @@ const ShowContact = () => {
           </Sheet>
         </div>
       </div>
-      <div className="col-span-4 py-10">
+      <div className="col-span-4 py-5">
+        <div className='py-10'>
+        <Separator />
+        </div>
         <Tabs defaultValue="notes" className="text-left">
           <TabsList>
             <TabsTrigger value="notes">Notes</TabsTrigger>
@@ -267,7 +364,7 @@ const ShowContact = () => {
           <Accordion type="single" collapsible>
         {reminders.map(reminder => (
           <AccordionItem value={reminder.ID.toString()}>
-          <AccordionTrigger>Reminder {reminder.ID.toString()} - {formatDate(reminder.Date)}</AccordionTrigger>
+          <AccordionTrigger>{reminder.Title} - {formatDate(reminder.Date)}</AccordionTrigger>
           <AccordionContent>
             <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
               <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
@@ -303,7 +400,7 @@ const ShowContact = () => {
           <Accordion type="single" collapsible>
         {notes.map(note => (
           <AccordionItem value={note.ID.toString()}>
-          <AccordionTrigger>Note {note.ID.toString()} - {formatDate(note.Date)}</AccordionTrigger>
+          <AccordionTrigger>{note.Title} - {formatDate(note.Date)}</AccordionTrigger>
           <AccordionContent>
             <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
               <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
@@ -336,6 +433,10 @@ const ShowContact = () => {
         </Accordion>
           </TabsContent>
         </Tabs>
+        <div className='text-left'>
+        <Toaster />
+        </div>
+        
       </div>
     </div>
   );

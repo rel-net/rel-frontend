@@ -25,16 +25,16 @@ function App() {
       <NavigationMenu>
         <NavigationMenuList>
         <NavigationMenuItem>
-          <Link to="/contact/create">
+          <Link to="/contacts">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Create
+              Contacts
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/contacts">
+          <Link to="/contact/create">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Contacts
+              Create Contact
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
