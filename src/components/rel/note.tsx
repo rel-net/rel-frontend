@@ -36,8 +36,10 @@ const Note: React.FC<NoteProps & { onDeleteNote: (note_id: number) => void }> = 
     return (
         <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
               <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
-              
               <Markdown className="markdown-render">{ note_content }</Markdown>
+              </div>
+              <div>
+                Test
               </div>
               <div className='lg:col-span-2 sm:col-span-8'>
                 <AlertDialog>
@@ -53,7 +55,7 @@ const Note: React.FC<NoteProps & { onDeleteNote: (note_id: number) => void }> = 
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDeleteNote(note_id)}>Continue</AlertDialogAction>
+                    <AlertDialogAction onClick={() => handleDeleteNote()}>Continue</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>

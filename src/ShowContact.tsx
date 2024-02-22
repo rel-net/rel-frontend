@@ -72,6 +72,7 @@ import {
 } from "@/components/ui/select";
 
 import { Note } from "@/components/rel/note";
+import { Reminder } from "@/components/rel/reminder";
 
 interface Contact {
   ID: number;
@@ -110,8 +111,6 @@ const ShowContact = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [isDeleteContact, setIsDeleteContact] = useState<number>(0);
-  const [isDeleteNote, setIsDeleteNote] = useState<number>(0);
-  const [isDeleteReminder, setIsDeleteReminder] = useState<number>(0);
   const [content, setContent] = useState('Note...');
   const [title, setTitle] = useState('Note title');
   const [todo, setTodo] = useState("Todo...");
@@ -162,9 +161,8 @@ const ShowContact = () => {
     setNotes(prevNotes => prevNotes.filter(note => note.ID !== deletedNoteId));
   };
 
-  const handleDeleteReminder = (reminderId:number|undefined) => {
-    deleteReminder(reminderId);
-    setIsDeleteReminder(1);
+  const handleDeleteReminder = (deletedReminderId:number|undefined) => {
+    setReminders(prevReminders => prevReminders.filter(reminder => reminder.ID !== deletedReminderId));
   }
 
   const { toast } = useToast()
@@ -200,16 +198,8 @@ const ShowContact = () => {
           .catch(error => console.error('Error deleting contact:', error));
       }
 
-      if(isDeleteNote){
-        setIsDeleteNote(0)
-      }
-
-      if(isDeleteReminder){
-        setIsDeleteReminder(0)
-      }
-
       
-  }, [isDeleteContact, isDeleteNote, isDeleteReminder, id, navigate]);
+  }, [isDeleteContact, id, navigate]);
 
   const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -367,10 +357,10 @@ const ShowContact = () => {
           <AccordionItem value={reminder.ID.toString()}>
           <AccordionTrigger>{reminder.Title} - {formatDate(reminder.Date)}</AccordionTrigger>
           <AccordionContent>
-            <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
+            {/* <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
               <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
               
-              <Markdown className="markdown-render">{ reminder.Todo}</Markdown>
+              <Markdown className="markdown-render">{ reminder.Todo }</Markdown>
               </div>
               <div className='lg:col-span-2 sm:col-span-8'>
                 <AlertDialog>
@@ -391,7 +381,8 @@ const ShowContact = () => {
                 </AlertDialogContent>
               </AlertDialog>
               </div>
-            </div>
+            </div> */}
+            <Reminder reminder_id={reminder.ID} reminder_todo={reminder.Todo} onDeleteReminder={handleDeleteReminder} />
           </AccordionContent>
           </AccordionItem>
         ))}
