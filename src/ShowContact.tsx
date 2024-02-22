@@ -260,7 +260,7 @@ const ShowContact = () => {
                     </Label>
                     <Input id="title" placeholder="Note title" onChange={handleTitleChange} className="col-span-3"/>
                     <Label htmlFor="content">
-                      Contact
+                      Content
                     </Label>
                     <Textarea id="content" placeholder="Type your message here." onChange={handleContentChange} className="col-span-3"/>
                     
