@@ -38,9 +38,6 @@ const Note: React.FC<NoteProps & { onDeleteNote: (note_id: number) => void }> = 
               <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
               <Markdown className="markdown-render">{ note_content }</Markdown>
               </div>
-              <div>
-                Test
-              </div>
               <div className='lg:col-span-2 sm:col-span-8'>
                 <AlertDialog>
                 <AlertDialogTrigger asChild>
