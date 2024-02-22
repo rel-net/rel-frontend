@@ -309,31 +309,6 @@ const ShowContact = () => {
           <AccordionItem value={reminder.ID.toString()}>
           <AccordionTrigger>{reminder.Title} - {formatDate(reminder.Date)}</AccordionTrigger>
           <AccordionContent>
-            {/* <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
-              <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
-              
-              <Markdown className="markdown-render">{ reminder.Todo }</Markdown>
-              </div>
-              <div className='lg:col-span-2 sm:col-span-8'>
-                <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive">Delete Reminder</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure to delete this reminder?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete the reminder.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDeleteReminder(reminder.ID)}>Continue</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-              </div>
-            </div> */}
             <Reminder reminder_id={reminder.ID} reminder_todo={reminder.Todo} onDeleteReminder={handleDeleteReminder} />
           </AccordionContent>
           </AccordionItem>
