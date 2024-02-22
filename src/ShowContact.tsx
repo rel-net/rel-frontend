@@ -71,6 +71,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { Note } from "@/components/rel/note";
+
 interface Contact {
   ID: number;
   CreatedAt: string;
@@ -156,10 +158,9 @@ const ShowContact = () => {
     })
   };
 
-  const handleDeleteNote = (noteId:number|undefined) => {
-    deleteNote(noteId);
-    setIsDeleteNote(1);
-  }
+  const handleDeleteNote = (deletedNoteId: number) => {
+    setNotes(prevNotes => prevNotes.filter(note => note.ID !== deletedNoteId));
+  };
 
   const handleDeleteReminder = (reminderId:number|undefined) => {
     deleteReminder(reminderId);
@@ -200,7 +201,7 @@ const ShowContact = () => {
       }
 
       if(isDeleteNote){
-        setIsDeleteReminder(0)
+        setIsDeleteNote(0)
       }
 
       if(isDeleteReminder){
@@ -398,38 +399,14 @@ const ShowContact = () => {
           </TabsContent>
           <TabsContent value="notes">
           <Accordion type="single" collapsible>
-        {notes.map(note => (
-          <AccordionItem value={note.ID.toString()}>
-          <AccordionTrigger>{note.Title} - {formatDate(note.Date)}</AccordionTrigger>
-          <AccordionContent>
-            <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
-              <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
-              
-              <Markdown className="markdown-render">{ note.Content}</Markdown>
-              </div>
-              <div className='lg:col-span-2 sm:col-span-8'>
-                <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive">Delete Note</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure to delete this note?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete the note content.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDeleteNote(note.ID)}>Continue</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-              </div>
-            </div>
-          </AccordionContent>
-          </AccordionItem>
-        ))}
+            {notes.map(note => (
+              <AccordionItem value={note.ID.toString()}>
+                <AccordionTrigger>{note.Title} - {formatDate(note.Date)}</AccordionTrigger>
+                <AccordionContent>
+                  <Note note_id={note.ID} note_content={note.Content} onDeleteNote={handleDeleteNote}/>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
         </Accordion>
           </TabsContent>
         </Tabs>
