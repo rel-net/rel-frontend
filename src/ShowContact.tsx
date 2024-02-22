@@ -2,8 +2,7 @@
 import * as React from "react"
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {createNote, createReminder, deleteNote, deleteReminder} from '@/controllers/crud';
-import Markdown from 'react-markdown'
+import {createReminder} from '@/controllers/crud';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -73,6 +72,7 @@ import {
 
 import { Note } from "@/components/rel/note";
 import { Reminder } from "@/components/rel/reminder";
+import { CreateNoteButton } from "./components/rel/create_note_button";
 
 interface Contact {
   ID: number;
@@ -111,19 +111,10 @@ const ShowContact = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [isDeleteContact, setIsDeleteContact] = useState<number>(0);
-  const [content, setContent] = useState('Note...');
-  const [title, setTitle] = useState('Note title');
   const [todo, setTodo] = useState("Todo...");
   const [reminderTitle, setReminderTitle] = useState("Reminder title");
   const [date, setDate] = React.useState<Date>();
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
-  };
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
 
   const handleTodoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTodo(e.target.value);
@@ -131,18 +122,6 @@ const ShowContact = () => {
 
   const handleReminderTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReminderTitle(e.target.value);
-  };
-
-  const handleSubmitNote = () => {
-    const contactId = contact?.ID;
-    createNote(contactId, title, content);
-    const now = new Date();
-    const formattedDate = now.toISOString();
-    toast({
-      duration: 2500,
-      title: "New note created",
-      description: formattedDate,
-    })
   };
 
   const handleSubmitReminder = () => {
@@ -246,34 +225,7 @@ const ShowContact = () => {
           </AlertDialog>
         </div>
         <div className='pb-2'>
-          <Sheet>
-            <SheetTrigger>
-              <Button variant="outline">Create Note</Button>
-            </SheetTrigger>
-            <SheetContent side="bottom" className="sm:max-h-[800px]">
-              <SheetHeader>
-                <SheetTitle>Create Note</SheetTitle>
-                <SheetDescription>
-                  <div className="grid grid-cols-2 items-center gap-4">
-                    <Label htmlFor="title">
-                      Title
-                    </Label>
-                    <Input id="title" placeholder="Note title" onChange={handleTitleChange} className="col-span-3"/>
-                    <Label htmlFor="content">
-                      Content
-                    </Label>
-                    <Textarea id="content" placeholder="Type your message here." onChange={handleContentChange} className="col-span-3"/>
-                    
-                  </div>
-                </SheetDescription>
-              </SheetHeader>
-              <SheetFooter className='py-10'>
-                <SheetClose asChild>
-                <Button onClick={handleSubmitNote} type="submit">Save changes</Button>
-                </SheetClose>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
+          <CreateNoteButton contact_id={contact?.ID} />
         </div>
         <div className='pb-2'>
           <Sheet>
