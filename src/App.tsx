@@ -41,7 +41,7 @@ function App() {
         </NavigationMenuList>
       </NavigationMenu>
       </div>
-      <div className="mt-16"> {/* Add top margin to account for the fixed header */}
+      <div className="mt-16'"> {/* Add top margin to account for the fixed header */}
         <Routes>
           <Route path="/contacts" element={<ContactList />} />
           <Route path="/contact/create" element={<CreateContact />} />

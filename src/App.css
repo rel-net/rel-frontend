@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.noise-container {
+  background: rgb(254, 254, 254);
+  background-image: url('https://arc.net/noise-light.png');
+}
