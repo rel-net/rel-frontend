@@ -48,20 +48,22 @@ function ContactList() {
         {contacts.map(contact => (
           <Card key={contact.ID}>
           <CardHeader>
-            <CardTitle><Link to={`/contact/${contact.ID}`} className="text-mygreen hover:underline">
+          <div className="grid gap-2 grid-cols-4">
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <h4 className="font-semibold mb-2">@{`${contact.Name}.${contact.LastName}`.toLowerCase()}</h4>
-            </Link></CardTitle>
-            <CardDescription>
-              {contact.Email} 
-              {contact.Phone}
-              {contact.LinkedIn}
-              {badgeRender(contact.IsUser)}
-            </CardDescription>
+              <Link to={`/contact/${contact.ID}`} className="text-mygreen hover:underline">
+                <h4 className="font-semibold mb-2">@{`${contact.Name}.${contact.LastName}`.toLowerCase()}</h4>
+              </Link>
+          </div>
           </CardHeader>
+          <CardDescription>
+            <div className="grid gap-2 grid-cols-4 pb-4">
+              <div className='col-span-3'>{contact.Email}</div>
+              <div className='col-span-2'>{badgeRender(contact.IsUser)}</div>
+            </div>
+          </CardDescription>
         </Card>
         
         ))}
