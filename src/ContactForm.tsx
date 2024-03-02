@@ -25,6 +25,12 @@ const formSchema = z.object({
   email: z.string().min(2, {
     message: "Email must be at least 2 characters.",
   }),
+  phone: z.string().min(8, {
+    message: "Phone must be at least 8 characters.",
+  }),
+  linkedin: z.string().min(4, {
+    message: "LinkedIn must be at least 8 characters.",
+  }),
 })
 
 export function ContactForm() {
@@ -34,7 +40,9 @@ export function ContactForm() {
     defaultValues: {
       name: "",
       lastname: "",
-      email: ""
+      email: "",
+      phone: "",
+      linkedin: ""
     },
   })
  
@@ -53,6 +61,8 @@ export function ContactForm() {
             Name: values.name,
             LastName: values.lastname,
             Email: values.email,
+            Phone: values.phone,
+            LinkedIn: values.linkedin
           }),
         });
   
@@ -105,6 +115,32 @@ export function ContactForm() {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input placeholder="john.doe@gmail.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone</FormLabel>
+              <FormControl>
+                <Input placeholder="+33626940345" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="linkedin"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Linkedin</FormLabel>
+              <FormControl>
+                <Input placeholder="https://www.linkedin.com/in/pimpaudben/" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

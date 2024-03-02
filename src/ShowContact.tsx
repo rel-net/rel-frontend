@@ -200,6 +200,8 @@ const ShowContact = () => {
               <CardContent className='text-left'>
                 <p>{contact?.Name}</p>
                 <p>{contact?.LastName}</p>
+                <p>{contact?.Phone}</p>
+                <p>{contact?.LinkedIn}</p>
               </CardContent>
             </CardHeader>
         </Card>

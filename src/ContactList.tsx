@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 interface Contact {
@@ -20,6 +22,7 @@ interface Contact {
   Email: string;
   Phone: string;
   LinkedIn: string;
+  IsUser: boolean;
 }
 
 function ContactList() {
@@ -33,6 +36,12 @@ function ContactList() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  const badgeRender = (isUser: boolean) => {
+    if(isUser){
+      return <Badge>user</Badge>
+    }
+  }
+
   return (
     <>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -40,9 +49,18 @@ function ContactList() {
           <Card key={contact.ID}>
           <CardHeader>
             <CardTitle><Link to={`/contact/${contact.ID}`} className="text-mygreen hover:underline">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
               <h4 className="font-semibold mb-2">@{`${contact.Name}.${contact.LastName}`.toLowerCase()}</h4>
             </Link></CardTitle>
-            <CardDescription>{contact.Email}</CardDescription>
+            <CardDescription>
+              {contact.Email} 
+              {contact.Phone}
+              {contact.LinkedIn}
+              {badgeRender(contact.IsUser)}
+            </CardDescription>
           </CardHeader>
         </Card>
         
