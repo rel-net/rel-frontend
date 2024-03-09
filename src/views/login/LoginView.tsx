@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/AuthContext';
+import { useNavigate } from 'react-router-dom'; 
 
 function LoginView() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
+    
     event.preventDefault();
 
     // Implement your login logic here (e.g., send a POST request to your backend API)
@@ -21,10 +24,8 @@ function LoginView() {
 
     // Set session ID or JWT in local storage or cookies
     localStorage.setItem('sessionId', sessionId); // Adjust storage mechanism as needed
-
-    // Clear form fields (optional)
-    setUsername('');
-    setPassword('');
+    navigate('/contacts');
+    
   };
 
   useEffect(() => {
@@ -36,25 +37,33 @@ function LoginView() {
 }, [setIsAuthenticated]);
 
   return (
+    
     <div className="login-container">
     <h1>Login</h1>
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="username">Username:</label>
-      <input
-        type="text"
-        id="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-    </form>
+    {
+      isAuthenticated ? (
+        <span>Hello</span>
+      ) : (
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+      )
+    }
+    
   </div>
   );
 }

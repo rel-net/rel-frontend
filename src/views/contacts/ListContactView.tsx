@@ -49,8 +49,7 @@ function ListContactView() {
           <CardHeader>
           <div className="grid gap-2 grid-cols-4">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{contact.Name[0].toUpperCase()}{contact.LastName[0].toUpperCase()}</AvatarFallback>
               </Avatar>
               <Link to={`/contact/${contact.ID}`} className="text-mygreen hover:underline">
                 <h4 className="font-semibold mb-2">@{`${contact.Name}.${contact.LastName}`.toLowerCase()}</h4>

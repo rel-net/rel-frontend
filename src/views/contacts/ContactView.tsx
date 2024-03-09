@@ -189,12 +189,12 @@ const ContactView = () => {
   
 
   return (
-    <div className='grid gap-2 grid-cols-4'>
-      <div className="col-span-2">
+    <div className='gridgrid-cols-3 gap-2'>
+      <div className="col-span-4">
         <Card key={contact?.ID} className='w-full'>
             <CardHeader>
               <CardTitle>
-                <h4 className="font-semibold mb-2">@{`${contact?.Name}.${contact?.LastName}`.toLowerCase()}</h4>
+                @{`${contact?.Name}.${contact?.LastName}`.toLowerCase()}
               </CardTitle>
               <CardDescription>{contact?.Email}</CardDescription>
               <CardContent className='text-left'>
@@ -206,7 +206,7 @@ const ContactView = () => {
             </CardHeader>
         </Card>
       </div>
-      <div className="col-span-1 text-left">
+      <div className="col-span-4 text-left">
         <div className='pb-2'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
