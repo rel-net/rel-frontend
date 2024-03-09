@@ -1,6 +1,6 @@
-// CreateContact.tsx
+// CreateContactView.tsx
 import { useState, useEffect } from 'react';
-import { ContactForm } from './ContactForm';
+import { ContactForm } from '@/views/contacts/ContactForm';
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -24,7 +24,7 @@ interface User {
   Bio: string;
 }
 
-const CreateContact = () => {
+const CreateContactView = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [searchedUsers, setSearchedUsers] = useState<User[]>(users);
 
@@ -113,4 +113,4 @@ const CreateContact = () => {
   );
 };
 
-export default CreateContact;
+export default CreateContactView;

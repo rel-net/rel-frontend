@@ -4,10 +4,10 @@ import './App.css'; // Existing styles
 import './tailwind.css'; // New styles
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
-import ContactList from './ContactList';
-import CreateContact from './CreateContact';
-import ShowContact from './ShowContact';
-import Login from './Login'
+import ListContactView from './views/contacts/ListContactView';
+import CreateContactView from './views/contacts/CreateContactView';
+import ContactView from './views/contacts/ContactView';
+import LoginView from './views/login/LoginView';
 import { Link } from 'react-router-dom';
 import {
   NavigationMenu,
@@ -18,6 +18,9 @@ import {
 } from "@/components/ui/navigation-menu"
 
 import { useAuth } from './AuthContext';
+
+
+
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
@@ -59,16 +62,16 @@ function App() {
       
         { isAuthenticated && (
           <Routes>
-            <Route path="/contacts" element={<ContactList />} />
-            <Route path="/contact/create" element={<CreateContact />} />
-            <Route path="/contact/:id" element={<ShowContact />} />
+            <Route path="/contacts" element={<ListContactView />} />
+            <Route path="/contact/create" element={<CreateContactView />} />
+            <Route path="/contact/:id" element={<ContactView />} />
           </Routes>
           )
         }
 
       { !isAuthenticated && (
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<LoginView />} />
           </Routes>
           )
         }

@@ -1,4 +1,4 @@
-// ContactList.tsx
+// ListContactView.tsx
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,6 @@ import {
   Card,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -25,7 +24,7 @@ interface Contact {
   IsUser: boolean;
 }
 
-function ContactList() {
+function ListContactView() {
   const [contacts, setContacts] = useState<Contact[]>([]);
 
   useEffect(() => {
@@ -72,4 +71,4 @@ function ContactList() {
   );
 }
 
-export default ContactList;
+export default ListContactView;

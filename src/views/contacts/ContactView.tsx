@@ -1,4 +1,4 @@
-// ShowContact.tsx
+// ContactView.tsx
 import * as React from "react"
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ import {
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-import { Input } from './components/ui/input';
+import { Input } from "@/components/ui/input";
 import {
   Accordion,
   AccordionContent,
@@ -72,7 +72,7 @@ import {
 
 import { Note } from "@/components/rel/note";
 import { Reminder } from "@/components/rel/reminder";
-import { CreateNoteButton } from "./components/rel/create_note_button";
+import { CreateNoteButton } from "@/components/rel/create_note_button";
 
 interface Contact {
   ID: number;
@@ -104,7 +104,7 @@ interface Reminder {
 }
 
 
-const ShowContact = () => {
+const ContactView = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [contact, setContact] = useState<Contact | null>(null);
@@ -339,4 +339,4 @@ const ShowContact = () => {
   );
 };
 
-export default ShowContact;
+export default ContactView;

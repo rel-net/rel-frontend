@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from './AuthContext'; // Replace with correct import path
+import { useAuth } from '@/AuthContext';
 
-function Login() {
+function LoginView() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { isAuthenticated, setIsAuthenticated } = useAuth();
@@ -59,4 +59,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginView;
