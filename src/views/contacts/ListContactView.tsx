@@ -22,6 +22,7 @@ interface Contact {
   Phone: string;
   LinkedIn: string;
   IsUser: boolean;
+  Group: string;
 }
 
 function ListContactView() {
@@ -58,8 +59,9 @@ function ListContactView() {
           </CardHeader>
           <CardDescription>
             <div className="grid gap-2 grid-cols-4 pb-4">
-              <div className='col-span-3'>{contact.Email}</div>
-              <div className='col-span-2'>{badgeRender(contact.IsUser)}</div>
+              <div className='col-span-4'>{contact.Email}</div>
+              <div className='col-span-4'>{badgeRender(contact.IsUser)}</div>
+              <div className='col-span-4'>{contact.Group}</div>
             </div>
           </CardDescription>
         </Card>

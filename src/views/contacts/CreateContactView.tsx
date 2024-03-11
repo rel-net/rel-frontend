@@ -63,7 +63,10 @@ const CreateContactView = () => {
             Name: user.FirstName,
             LastName: user.LastName,
             Email: user.Email,
-            IsUser: true
+            IsUser: true,
+            ContactUserId: user.ID,
+            InvitationSent: false,
+            Group: "all"
           }),
         });
   

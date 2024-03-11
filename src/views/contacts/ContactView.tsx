@@ -84,6 +84,7 @@ interface Contact {
   Email: string;
   Phone: string;
   LinkedIn: string;
+  Group: string;
 }
 
 interface Note {
@@ -202,6 +203,7 @@ const ContactView = () => {
                 <p>{contact?.LastName}</p>
                 <p>{contact?.Phone}</p>
                 <p>{contact?.LinkedIn}</p>
+                <p>{contact?.Group}</p>
               </CardContent>
             </CardHeader>
         </Card>
