@@ -9,6 +9,13 @@ import {
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 
 interface Contact {
@@ -27,6 +34,7 @@ interface Contact {
 
 function ListContactView() {
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [filterGroup, setFilterGroup] = useState("");
 
   useEffect(() => {
     // Fetch data from the backend API
@@ -42,10 +50,33 @@ function ListContactView() {
     }
   }
 
+  const filteredContacts = contacts.filter(contact => {
+    // Check if there's a filter applied
+    if (!filterGroup || filterGroup == "✨ All") return true; // Show all contacts if no filter
+  
+    // Check if contact group matches the filter
+    return contact.Group.toLowerCase() === filterGroup.toLowerCase();
+  });
+
+  const handleFilter = (e) => {
+    console.log(e)
+    setFilterGroup(e)
+  }
+
   return (
     <>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        {contacts.map(contact => (
+        <Select onValueChange={handleFilter}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Group" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="✨ All">✨ All</SelectItem>
+            <SelectItem value="🦄 Founder">🦄 Founder</SelectItem>
+            <SelectItem value="💻 Software Engineer">💻 Software Engineer</SelectItem>
+          </SelectContent>
+        </Select>
+        {filteredContacts.map(contact => (
           <Card key={contact.ID}>
           <CardHeader>
           <div className="grid gap-2 grid-cols-4">
