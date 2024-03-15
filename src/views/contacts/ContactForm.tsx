@@ -33,9 +33,7 @@ const formSchema = z.object({
   email: z.string().min(2, {
     message: "Email must be at least 2 characters.",
   }),
-  phone: z.string().min(8, {
-    message: "Phone must be at least 8 characters.",
-  }),
+  phone: z.optional(z.string()),
   linkedin: z.string().min(4, {
     message: "LinkedIn must be at least 4 characters.",
   }),

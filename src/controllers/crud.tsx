@@ -45,6 +45,29 @@ const createNote = async (contactId:number|undefined, title: string, content: st
   }
 };
 
+const updateNote = async (note_id: number, content: string) => {
+  try {
+    const response = await fetch(`http://0.0.0.0:3000/api/note/${note_id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Content: content
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Note updated successfully!');
+      // Optionally, you can perform additional actions after successful creation.
+    } else {
+      console.error('Error creating note:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error creating note:', error);
+  }
+};
+
 const createReminder = async (contactId:number|undefined, title: string, todo: string, date: Date|undefined) => {
   const formattedDate = date?.toISOString();
   try {
@@ -72,4 +95,4 @@ const createReminder = async (contactId:number|undefined, title: string, todo: s
 };
 
 
-export {createNote, createReminder, deleteNote, deleteReminder}
+export {createNote, createReminder, deleteNote, deleteReminder, updateNote}
