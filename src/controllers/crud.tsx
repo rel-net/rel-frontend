@@ -95,4 +95,28 @@ const createReminder = async (contactId:number|undefined, title: string, todo: s
 };
 
 
-export {createNote, createReminder, deleteNote, deleteReminder, updateNote}
+
+const updateContact = async (contactId:number|undefined, group: string) => {
+  try {
+    const response = await fetch(`http://0.0.0.0:3000/api/contact/${contactId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Group: group
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Contact updated successfully!');
+      // Optionally, you can perform additional actions after successful creation.
+    } else {
+      console.error('Error creating note:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error creating note:', error);
+  }
+};
+
+export {createNote, createReminder, deleteNote, deleteReminder, updateNote, updateContact}

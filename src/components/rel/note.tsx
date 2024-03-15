@@ -14,6 +14,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
 
 interface NoteProps {
     note_id: number;
@@ -23,7 +25,7 @@ const Note: React.FC<NoteProps & { onDeleteNote: (note_id: number) => void }> = 
     const [isDeleteNote, setIsDeleteNote] = useState<number>(0);
     const [isEditNote, setIsEditNote] = useState<number>(0);
     const [editedContent, setEditedContent] = useState(note_content);
-
+    const { toast } = useToast()
     const handleDeleteNote = () => {
         deleteNote(note_id);
         setIsDeleteNote(1);
@@ -33,9 +35,13 @@ const Note: React.FC<NoteProps & { onDeleteNote: (note_id: number) => void }> = 
     const handleEditNote = () => {
       console.log(editedContent);
       updateNote(note_id, editedContent);
+      toast({
+        duration: 2500,
+        title: "Note updated 🚀",
+      })
       setIsEditNote(0);
     }
-    
+  
 
     useEffect(() => {
       if (isDeleteNote === 1) {
@@ -52,7 +58,7 @@ const Note: React.FC<NoteProps & { onDeleteNote: (note_id: number) => void }> = 
         <div className='grid gap-2 lg:grid-cols-8 sm:grid-cols-1 mt-6'>
               <div className='text-left lg:border p-8 lg:border-gray-300 rounded lg:col-span-6 sm:col-span-8'>
               {isEditNote === 1 ? (
-                <Textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
+                <Textarea rows={20} value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
               ) : (
                 <Markdown className="markdown-render">{ note_content }</Markdown>
               )}
@@ -77,6 +83,7 @@ const Note: React.FC<NoteProps & { onDeleteNote: (note_id: number) => void }> = 
               </AlertDialog>
               <Button variant="default" onClick={() => setIsEditNote(1)}>Edit Note</Button>
               <Button variant="default" onClick={() => setIsEditNote(2)}>Save</Button>
+              <Toaster />
               </div>
             </div>
     )

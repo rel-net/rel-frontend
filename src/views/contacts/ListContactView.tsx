@@ -74,6 +74,7 @@ function ListContactView() {
             <SelectItem value="✨ All">✨ All</SelectItem>
             <SelectItem value="🦄 Founder">🦄 Founder</SelectItem>
             <SelectItem value="💻 Software Engineer">💻 Software Engineer</SelectItem>
+            <SelectItem value="🤓 Data Engineer">🤓 Data Engineer</SelectItem>
           </SelectContent>
         </Select>
         {filteredContacts.map(contact => (

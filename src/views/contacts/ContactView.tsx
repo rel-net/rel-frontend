@@ -2,7 +2,7 @@
 import * as React from "react"
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {createReminder} from '@/controllers/crud';
+import {createReminder, updateContact} from '@/controllers/crud';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -115,6 +115,7 @@ const ContactView = () => {
   const [todo, setTodo] = useState("Todo...");
   const [reminderTitle, setReminderTitle] = useState("Reminder title");
   const [date, setDate] = React.useState<Date>();
+  const [group, setGroup] = useState("all");
 
 
   const handleTodoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -146,6 +147,11 @@ const ContactView = () => {
   }
 
   const { toast } = useToast()
+
+  const handleEdit = () => {
+    updateContact(contact?.ID, group)
+    console.log(group)
+  }
 
   useEffect(() => {
     // Fetch contact details
@@ -206,6 +212,39 @@ const ContactView = () => {
                 <p>{contact?.Group}</p>
               </CardContent>
             </CardHeader>
+            <Sheet>
+            <SheetTrigger>
+              <Button variant="outline">Edit</Button>
+            </SheetTrigger>
+            <SheetContent side="bottom" className="sm:max-h-[800px]">
+              <SheetHeader>
+                <SheetTitle>Edit</SheetTitle>
+                <SheetDescription>
+                  <div className="grid grid-cols-2 items-center gap-4">
+                    <Label htmlFor="group">
+                        Group
+                    </Label>
+                    <Select onValueChange={(value) => setGroup(value)}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Group" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="✨ All">✨ All</SelectItem>
+                        <SelectItem value="🦄 Founder">🦄 Founder</SelectItem>
+                        <SelectItem value="💻 Software Engineer">💻 Software Engineer</SelectItem>
+                        <SelectItem value="🤓 Data Engineer">🤓 Data Engineer</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </SheetDescription>
+              </SheetHeader>
+              <SheetFooter className='py-10'>
+                <SheetClose asChild>
+                <Button onClick={handleEdit} type="submit">Save changes</Button>
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
         </Card>
       </div>
       <div className="col-span-4 text-left">
