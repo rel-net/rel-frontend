@@ -9,21 +9,25 @@ import CreateContactView from './views/contacts/CreateContactView';
 import ContactView from './views/contacts/ContactView';
 import LoginView from './views/login/LoginView';
 import { useAuth } from './AuthContext';
+import { useUser } from './UserContext';
 import { Button } from './components/ui/button';
+import cookies from "js-cookie";
 
 
-
+interface User {
+  ID: number;
+  Name: string;
+}
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
 
   useEffect(() => {
-    const storedSessionId = localStorage.getItem('sessionId');
-    console.log(storedSessionId)
-    if (storedSessionId) {
-        setIsAuthenticated(true);
+    const cookieValue = cookies.get("Authorization");
+    if (cookieValue) {
+      setIsAuthenticated(true);
     }
-}, [setIsAuthenticated]);
+  }, []);
 
   return (
     <Router>

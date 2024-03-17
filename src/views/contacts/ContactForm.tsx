@@ -62,7 +62,7 @@ export function ContactForm() {
     // ✅ This will be type-safe and validated.
     console.log(values)
     try {
-        const response = await fetch('http://0.0.0.0:3000/api/contact', {
+        const response = await fetch('https://0.0.0.0:3000/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -103,6 +103,7 @@ interface Reminder {
   Status: string;
   Title: string;
 }
+import { useUser } from '@/UserContext';
 
 
 const ContactView = () => {
@@ -117,7 +118,10 @@ const ContactView = () => {
   const [date, setDate] = React.useState<Date>();
   const [group, setGroup] = useState("all");
 
+  const { user, setUser } = useUser();
 
+  console.log(user);
+  
   const handleTodoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTodo(e.target.value);
   };
@@ -155,25 +159,25 @@ const ContactView = () => {
 
   useEffect(() => {
     // Fetch contact details
-    fetch(`http://0.0.0.0:3000/api/contact/${id}`)
+    fetch(`https://localhost:3000/api/contact/${id}`)
       .then(response => response.json())
       .then(data => setContact(data.contact))
       .catch(error => console.error('Error fetching contact details:', error));
 
     // Fetch contact notes
-    fetch(`http://0.0.0.0:3000/api/note/contact/${id}`)
+    fetch(`https://localhost:3000/api/note/contact/${id}`)
       .then(response => response.json())
       .then(data => setNotes(data.notes))
       .catch(error => console.error('Error fetching contact notes:', error));
 
     // Fetch contact reminders
-    fetch(`http://0.0.0.0:3000/api/reminder/contact/${id}`)
+    fetch(`https://localhost:3000/api/reminder/contact/${id}`)
       .then(response => response.json())
       .then(data => setReminders(data.reminders))
       .catch(error => console.error('Error fetching contact reminder:', error));
 
       if(isDeleteContact){
-        fetch(`http://0.0.0.0:3000/api/contact/${id}`, {
+        fetch(`https://localhost:3000/api/contact/${id}`, {
           method: 'DELETE',
         })
           .then(() => {

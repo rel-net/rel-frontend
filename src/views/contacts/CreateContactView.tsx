@@ -30,7 +30,7 @@ const CreateContactView = () => {
 
   useEffect(() => {
     // Fetch data from the backend API
-    fetch('http://0.0.0.0:3000/api/user')
+    fetch('https://0.0.0.0:3000/api/user')
       .then(response => response.json())
       .then(data => {
         setUsers(data.users);
@@ -54,7 +54,7 @@ const CreateContactView = () => {
 
   const fillContactForm = (user: User) => {
     try {
-        fetch('http://0.0.0.0:3000/api/contact', {
+        fetch('https://0.0.0.0:3000/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

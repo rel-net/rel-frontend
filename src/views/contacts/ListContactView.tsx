@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
+import { useUser } from '@/UserContext';
 
 interface Contact {
   ID: number;
@@ -35,10 +35,20 @@ interface Contact {
 function ListContactView() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [filterGroup, setFilterGroup] = useState("");
+  const { user, setUser } = useUser();
+
+  console.log(user);
+
 
   useEffect(() => {
     // Fetch data from the backend API
-    fetch('http://0.0.0.0:3000/api/contact')
+    fetch('https://localhost:3000/api/contact', {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
       .then(response => response.json())
       .then(data => setContacts(data.contacts))
       .catch(error => console.error('Error fetching data:', error));

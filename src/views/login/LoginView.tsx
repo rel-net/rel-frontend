@@ -1,32 +1,57 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/AuthContext';
+import { useUser } from '@/UserContext';
 import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios'
+
+interface User {
+  ID: number;
+  Name: string;
+}
 
 function LoginView() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { isAuthenticated, setIsAuthenticated } = useAuth();
+  // TODO: add user preference in context const { user, setUser } = useUser();
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Implement your login logic here (e.g., send a POST request to your backend API)
-    console.log('Login attempt:', { username, password }); // Placeholder for now
-
-    // Update isAuthenticated based on login success (replace with actual logic)
-    setIsAuthenticated(true); // Replace with condition based on login response
-    // const response = await axios.post('/api/login', { username, password });
-    // Assuming successful login response includes a session ID or JWT
-    // const sessionId = response.data.sessionId; // Replace with your API's response format
-    const sessionId = "abc"
-
-    // Set session ID or JWT in local storage or cookies
-    localStorage.setItem('sessionId', sessionId); // Adjust storage mechanism as needed
-    navigate('/contacts');
-    
+  
+    try {
+      const response = await fetch('https://localhost:3000/api/login', {
+        method: 'POST',
+        credentials: "include",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Email: username,
+          Password: password
+        }),
+      });
+  
+      // Handle successful login
+      if (response.status === 200) {
+        setIsAuthenticated(true);
+  
+        // Set user information
+        // response.json().data
+        //setUser(data.user); // Assuming user object is in response + localstorage
+  
+        navigate('/contacts');
+      } else {
+        // Handle login failure (e.g., display error message)
+        console.error('Login failed:', response.json());
+      }
+    } catch (error) {
+      // Handle network errors or other issues
+      console.error('Login error:', error);
+      // Optionally display an error message to the user
+    }
   };
+
 
   useEffect(() => {
     const storedSessionId = localStorage.getItem('sessionId');
