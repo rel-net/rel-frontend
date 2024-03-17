@@ -159,19 +159,37 @@ const ContactView = () => {
 
   useEffect(() => {
     // Fetch contact details
-    fetch(`https://localhost:3000/api/contact/${id}`)
+    fetch(`https://localhost:3000/api/contact/${id}`, {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
       .then(response => response.json())
       .then(data => setContact(data.contact))
       .catch(error => console.error('Error fetching contact details:', error));
 
     // Fetch contact notes
-    fetch(`https://localhost:3000/api/note/contact/${id}`)
+    fetch(`https://localhost:3000/api/note/contact/${id}`, {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
       .then(response => response.json())
       .then(data => setNotes(data.notes))
       .catch(error => console.error('Error fetching contact notes:', error));
 
     // Fetch contact reminders
-    fetch(`https://localhost:3000/api/reminder/contact/${id}`)
+    fetch(`https://localhost:3000/api/reminder/contact/${id}`, {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
       .then(response => response.json())
       .then(data => setReminders(data.reminders))
       .catch(error => console.error('Error fetching contact reminder:', error));
@@ -179,6 +197,10 @@ const ContactView = () => {
       if(isDeleteContact){
         fetch(`https://localhost:3000/api/contact/${id}`, {
           method: 'DELETE',
+            credentials: "include",
+            headers: {
+              'Content-Type': 'application/json',
+            }
         })
           .then(() => {
             console.log('Contact deleted successfully!');

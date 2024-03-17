@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useUser } from '@/UserContext';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -43,6 +44,7 @@ const formSchema = z.object({
 })
 
 export function ContactForm() {
+  const user_id = localStorage.getItem("user_id")
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,8 +64,9 @@ export function ContactForm() {
     // ✅ This will be type-safe and validated.
     console.log(values)
     try {
-        const response = await fetch('https://0.0.0.0:3000/api/contact', {
+        const response = await fetch('https://localhost:3000/api/contact', {
           method: 'POST',
+          credentials: "include",
           headers: {
             'Content-Type': 'application/json',
           },
@@ -73,7 +76,8 @@ export function ContactForm() {
             Email: values.email,
             Phone: values.phone,
             LinkedIn: values.linkedin,
-            Group: values.group
+            Group: values.group,
+            UserId: user_id
           }),
         });
   

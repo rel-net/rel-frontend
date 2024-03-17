@@ -1,6 +1,6 @@
 
 const deleteNote = async (noteId:number|undefined) => {
-    fetch(`https://0.0.0.0:3000/api/note/${noteId}`, {
+    fetch(`https://localhost:3000/api/note/${noteId}`, {
           method: 'DELETE',
         })
           .then(() => {
@@ -11,7 +11,7 @@ const deleteNote = async (noteId:number|undefined) => {
 };
 
 const deleteReminder = async (reminderId:number|undefined) => {
-  fetch(`https://0.0.0.0:3000/api/reminder/${reminderId}`, {
+  fetch(`https://localhost:3000/api/reminder/${reminderId}`, {
         method: 'DELETE',
       })
         .then(() => {
@@ -23,7 +23,7 @@ const deleteReminder = async (reminderId:number|undefined) => {
 
 const createNote = async (contactId:number|undefined, title: string, content: string) => {
   try {
-    const response = await fetch(`https://0.0.0.0:3000/api/note/contact/${contactId}`, {
+    const response = await fetch(`https://localhost:3000/api/note/contact/${contactId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const createNote = async (contactId:number|undefined, title: string, content: st
 
 const updateNote = async (note_id: number, content: string) => {
   try {
-    const response = await fetch(`https://0.0.0.0:3000/api/note/${note_id}`, {
+    const response = await fetch(`https://localhost:3000/api/note/${note_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const updateNote = async (note_id: number, content: string) => {
 const createReminder = async (contactId:number|undefined, title: string, todo: string, date: Date|undefined) => {
   const formattedDate = date?.toISOString();
   try {
-    const response = await fetch(`https://0.0.0.0:3000/api/reminder/contact/${contactId}`, {
+    const response = await fetch(`https://localhost:3000/api/reminder/contact/${contactId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const createReminder = async (contactId:number|undefined, title: string, todo: s
 
 const updateContact = async (contactId:number|undefined, group: string) => {
   try {
-    const response = await fetch(`https://0.0.0.0:3000/api/contact/${contactId}`, {
+    const response = await fetch(`https://localhost:3000/api/contact/${contactId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

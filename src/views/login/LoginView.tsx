@@ -6,13 +6,13 @@ import axios from 'axios'
 
 interface User {
   ID: number;
-  Name: string;
 }
 
 function LoginView() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { isAuthenticated, setIsAuthenticated } = useAuth();
+  // const { user, setUser } = useUser();
   // TODO: add user preference in context const { user, setUser } = useUser();
   const navigate = useNavigate();
 
@@ -34,8 +34,13 @@ function LoginView() {
   
       // Handle successful login
       if (response.status === 200) {
+        const data = await response.json()
         setIsAuthenticated(true);
-  
+        
+        const user: User = {
+          ID: data.user_id,  // Assuming data.user_id is a number
+        };
+        localStorage.setItem("user_id", user.ID.toString())
         // Set user information
         // response.json().data
         //setUser(data.user); // Assuming user object is in response + localstorage

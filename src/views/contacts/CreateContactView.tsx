@@ -27,10 +27,10 @@ interface User {
 const CreateContactView = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [searchedUsers, setSearchedUsers] = useState<User[]>(users);
-
+  const user_id = localStorage.getItem("user_id")
   useEffect(() => {
     // Fetch data from the backend API
-    fetch('https://0.0.0.0:3000/api/user')
+    fetch('https://localhost:3000/api/user')
       .then(response => response.json())
       .then(data => {
         setUsers(data.users);
@@ -54,8 +54,9 @@ const CreateContactView = () => {
 
   const fillContactForm = (user: User) => {
     try {
-        fetch('https://0.0.0.0:3000/api/contact', {
+        fetch('https://localhost:3000/api/contact', {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -66,10 +67,11 @@ const CreateContactView = () => {
             IsUser: true,
             ContactUserId: user.ID,
             InvitationSent: false,
-            Group: "all"
+            Group: "all",
+            UserId: Number(user_id)
           }),
         });
-  
+        console.log(user_id)
       } catch (error) {
         console.error('Error creating contact:', error);
       }

@@ -12,6 +12,7 @@ import { useAuth } from './AuthContext';
 import { useUser } from './UserContext';
 import { Button } from './components/ui/button';
 import cookies from "js-cookie";
+import { Link } from 'react-router-dom';
 
 
 interface User {
@@ -51,13 +52,13 @@ function App() {
               <h2><a href='/contacts'>Contacts</a></h2>
             </div>
             <div className='py-1'>
-              <Button><a href='/contact/create'>Create Contact</a></Button>
+              <Link to={`/contact/create`} className="text-mygreen hover:underline"><Button>Create Contact</Button></Link>
             </div>
             <div className='py-1'>
-              <Button disabled={true}><a href='#'>Create Note</a></Button>
+            <Link to="#" className="text-mygreen hover:underline"><Button disabled={true}>Create Note</Button></Link>
             </div>
             <div className='py-1'>
-              <Button disabled={true}><a href='#'>Create Reminder</a></Button>
+            <Link to="#" className="text-mygreen hover:underline"><Button disabled={true}>Create Reminder</Button></Link>
             </div>
           </div>
           <div className='grid col-span-5'>

@@ -1,12 +1,12 @@
 import React, { createContext, useState, useContext } from 'react';
 
 export const UserContext = createContext({
-    user: {},
+    user: {ID: ""},
     setUser: () => {},
 });
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({}); // Initial state
+    const [user, setUser] = useState({ID: ""}); // Initial state
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
